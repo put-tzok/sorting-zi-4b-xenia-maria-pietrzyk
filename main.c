@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+using namespace std;
+
 unsigned int ns[] = { 10, /* TODO: fill in "n" i.e. instance sizes */ };
 
 void fill_increasing(int *t, unsigned int n) {
@@ -46,9 +48,9 @@ void insertion_sort(int *t, unsigned int n) {
 
 	int d, c;
 
-	for (int j = 1; j < n - 1; j++)
+	for (int i = 1; i < n - 1; i++)
 	{
-		d = j;
+		d = i;
 	}
 	while (d > 0 && t[d] < t[d - 1])
 	{
@@ -59,12 +61,102 @@ void insertion_sort(int *t, unsigned int n) {
 	}
 }
 
-void quick_sort(int *t, unsigned int n) {
-    // TODO: implement
+void swap(int* a, int* b)
+{
+	int t = *a;
+	*a = *b;
+	*b = t;
 }
 
+int piv_l_partition(int *t, int low, int high)
+{
+	int pivot = t[high];
+	int i = (low - 1); 
+
+	for (int j = low; j <= high - 1; j++)
+	{		 
+		if (t[j] < pivot)
+		{
+			i++; 
+			swap(&t[i], &t[j]);
+		}
+	}
+	swap(&t[i + 1], &t[high]);
+	return (i + 1);
+}
+
+
+void quick_sort(int *t, int low, int high) {
+	// TODO: implement
+
+	if (low < high)
+	{		
+		int pivot = piv_l_partition(t, low, high);
+				 
+		quick_sort(t, low, pivot - 1);
+		quick_sort(t, pivot + 1, high);
+	}
+}
+
+int piv_2_partition(int *t, int low, int high, unsigned int n)
+{
+	int pivot = rand() % n;
+	int i = (low - 1); 
+
+	for (int j = low; j <= high - 1; j++)
+	{	  
+		if (t[j] < pivot)
+		{
+			i++; 
+			swap(&t[i], &t[j]);
+		}
+	}
+	swap(&t[i + 1], &t[high]);
+	return (i + 1);
+}
+void quick_sort_rdm(int *t, int low, int high, unsigned int n) {
+	// TODO: implement
+
+	if (low < high)
+	{
+		int pivot = piv_2_partition(t, low, high, n);
+	
+		quick_sort_rdm(t, low, pivot - 1, n);
+		quick_sort_rdm(t, pivot + 1, high, n);
+	}
+}
+
+void heap_heapify(int *t, unsigned int n, int i)
+{
+	int larg = i;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+
+	if (l < n && t[l] > t[larg])
+		larg = l;
+
+	if (r < n && t[r] > t[larg])
+		larg = r;
+
+	if (larg != i)
+	{
+		swap(t[i], t[larg]);
+		heap_heapify(t, n, larg);
+	}
+}
+
+
 void heap_sort(int *t, unsigned int n) {
-    // TODO
+	// TODO
+
+	for (int i = n / 2 - 1; i >= 0; i--)
+		heap_heapify(t, n, i);
+
+	for (int i = n - 1; i >= 0; i--)
+	{
+		swap(t[0], t[i]);
+		heap_heapify(t, i, 0);
+	}
 }
 
 void fill_random(int *t, unsigned int n) {
