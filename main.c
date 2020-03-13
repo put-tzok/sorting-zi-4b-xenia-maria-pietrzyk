@@ -5,19 +5,42 @@
 
 using namespace std;
 
-unsigned int ns[] = { 10, /* TODO: fill in "n" i.e. instance sizes */ };
+// Project made by Jacek Nowak 4B and Xenia Pietrzyk 4B.
+
+unsigned int ns[] = { 10, 25, 50, 75, 150, 300, 900, 1800, 3600, 7500 };
 
 void fill_increasing(int *t, unsigned int n) {
-    // TODO: implement 
+
+	int i;
+	for (i = 0; i < n; i++) 
+	{
+		t[i] = i;
+	}
 }
 
 void fill_decreasing(int *t, unsigned int n) {
-    // TODO: implement
+
+	int w[n];
+	int i;
+	w[n] = n;
+	for (i = 0; i < n; i++)
+	{
+		n--;
+		w[n] = n;
+	}
 }
 
 void fill_vshape(int *t, unsigned int n) {
-    // TODO: implement
-}
+
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		t[i] = i++;
+	}
+	int start = t[n - 1];
+	int end = t[n - 2];
+	t[0] = start;
+	t[n - 1] = end;
 
 void selection_sort(int *t, unsigned int n) {
     // TODO: implement
