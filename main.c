@@ -6,7 +6,7 @@
 unsigned int ns[] = { 10, /* TODO: fill in "n" i.e. instance sizes */ };
 
 void fill_increasing(int *t, unsigned int n) {
-    // TODO: implement
+    // TODO: implement 
 }
 
 void fill_decreasing(int *t, unsigned int n) {
@@ -19,10 +19,44 @@ void fill_vshape(int *t, unsigned int n) {
 
 void selection_sort(int *t, unsigned int n) {
     // TODO: implement
+	
+	int position, swap;
+
+	for (int c = 0; c < (n); c++)
+
+		for (int c = 0; c < (n - 1); c++)
+		{
+			position = c;
+			for (int d = c + 1; d < n; d++)
+			{
+				if (t[position] > t[d])
+					position = d;
+			}
+			if (position != c)
+			{
+				swap = t[c];
+				t[c] = t[position];
+				t[position] = swap;
+			}
+		}
 }
 
 void insertion_sort(int *t, unsigned int n) {
     // TODO: implement
+
+	int d, c;
+
+	for (int j = 1; j < n - 1; j++)
+	{
+		d = j;
+	}
+	while (d > 0 && t[d] < t[d - 1])
+	{
+		c = t[d];
+		t[d] = t[d - 1];
+		t[d - 1] = c;
+		d--;
+	}
 }
 
 void quick_sort(int *t, unsigned int n) {
