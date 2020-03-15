@@ -3,14 +3,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-using namespace std;
-
 // Project made by Jacek Nowak 4B and Xenia Pietrzyk 4B.
 
-unsigned int ns[] = { 10, 25, 50, 75, 150, 300, 900, 1800, 3600, 7500 };
+unsigned int ns[] = { 10, 25, 50, 75, 250, 400, 450, 600, 650, 800};
 
-void fill_increasing(int *t, unsigned int n) {
-
+void fill_increasing(int *t, unsigned int n) 
+{
 	int i;
 	for (i = 0; i < n; i++) 
 	{
@@ -18,31 +16,35 @@ void fill_increasing(int *t, unsigned int n) {
 	}
 }
 
-void fill_decreasing(int *t, unsigned int n) {
-
-	int w[n];
+void fill_decreasing(int *t, unsigned int n) 
+{	
 	int i;
-	w[n] = n;
 	for (i = 0; i < n; i++)
-	{
-		n--;
-		w[n] = n;
+	{		
+		t[i] = -i;
 	}
 }
 
 void fill_vshape(int *t, unsigned int n) {
 
-	int i;
-	for (i = 0; i < n; i++)
+	int *beg;
+	int *end;
+	beg = t;
+	end = t + n - 1;
+	int k = n;
+	while (end - beg > 1)
 	{
-		t[i] = i++;
+		*beg = k;
+		k--;
+		*end = k;
+		k--;
+		beg++;
+		end--;
 	}
-	int start = t[n - 1];
-	int end = t[n - 2];
-	t[0] = start;
-	t[n - 1] = end;
+}
 
-void selection_sort(int *t, unsigned int n) {
+void selection_sort(int *t, unsigned int n) 
+{
     // TODO: implement
 	
 	int position, swap;
@@ -66,21 +68,23 @@ void selection_sort(int *t, unsigned int n) {
 		}
 }
 
-void insertion_sort(int *t, unsigned int n) {
-    // TODO: implement
 
-	int d, c;
+void insertion_sort(int *t, unsigned int n) 
+{
+	int i, k, j;
 
-	for (int i = 1; i < n - 1; i++)
+	for (i = 1; i < n; i++) 
 	{
-		d = i;
-	}
-	while (d > 0 && t[d] < t[d - 1])
-	{
-		c = t[d];
-		t[d] = t[d - 1];
-		t[d - 1] = c;
-		d--;
+		k = t[i];
+		j = i - 1;
+
+		while (j >= 0 && t[j] > k) 
+		{
+			t[j + 1] = t[j];
+			j = j - 1;
+		}
+
+		t[j + 1] = k;
 	}
 }
 
@@ -91,63 +95,47 @@ void swap(int* a, int* b)
 	*b = t;
 }
 
-int piv_l_partition(int *t, int low, int high)
+int part(int *t, int low, int high) 
 {
+	int j;
 	int pivot = t[high];
-	int i = (low - 1); 
+	int i = (low - 1);
 
-	for (int j = low; j <= high - 1; j++)
-	{		 
-		if (t[j] < pivot)
-		{
-			i++; 
-			swap(&t[i], &t[j]);
-		}
-	}
-	swap(&t[i + 1], &t[high]);
-	return (i + 1);
-}
-
-
-void quick_sort(int *t, int low, int high) {
-	// TODO: implement
-
-	if (low < high)
-	{		
-		int pivot = piv_l_partition(t, low, high);
-				 
-		quick_sort(t, low, pivot - 1);
-		quick_sort(t, pivot + 1, high);
-	}
-}
-
-int piv_2_partition(int *t, int low, int high, unsigned int n)
-{
-	int pivot = rand() % n;
-	int i = (low - 1); 
-
-	for (int j = low; j <= high - 1; j++)
-	{	  
-		if (t[j] < pivot)
-		{
-			i++; 
-			swap(&t[i], &t[j]);
-		}
-	}
-	swap(&t[i + 1], &t[high]);
-	return (i + 1);
-}
-void quick_sort_rdm(int *t, int low, int high, unsigned int n) {
-	// TODO: implement
-
-	if (low < high)
+	for (j = low; j <= high - 1; j++) 
 	{
-		int pivot = piv_2_partition(t, low, high, n);
-	
-		quick_sort_rdm(t, low, pivot - 1, n);
-		quick_sort_rdm(t, pivot + 1, high, n);
+		if (t[j] <= pivot) {
+			i++;
+			swap(&t[i], &t[j]);
+		}
+	}
+
+	swap(&t[i + 1], &t[high]);
+	return (i + 1);
+}
+
+int rdm_part(int *t, int low, int high) 
+{
+	int pivot = low + rand() % high;
+	swap(&t[pivot], &t[high]);
+	return part(t, low, high);
+}
+
+
+void q_s(int *t, int low, int high) 
+{
+	if (low < high) 
+	{
+		int pi = part(t, low, high);
+		q_s(t, low, pi - 1);
+		q_s(t, pi + 1, high);
 	}
 }
+
+void quick_sort(int *t, unsigned int n) 
+{
+	q_s(t, 0, n - 1);
+}
+
 
 void heap_heapify(int *t, unsigned int n, int i)
 {
