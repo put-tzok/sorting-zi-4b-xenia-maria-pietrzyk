@@ -5,7 +5,7 @@
 
 // Project made by Jacek Nowak 4B and Xenia Pietrzyk 4B.
 
-unsigned int ns[] = { 10, 25, 50, 75, 250, 400, 450, 600, 650, 800};
+unsigned int ns[] = { 5, 10, 15, 20, 25, 30, 35, 75, 250, 550};
 
 void fill_increasing(int *t, unsigned int n) 
 {
